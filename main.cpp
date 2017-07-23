@@ -3,4 +3,5 @@
 int main() {
     VirtualQuest *virtualQuest = new VirtualQuest();
     virtualQuest->run();
+    delete virtualQuest;
 }

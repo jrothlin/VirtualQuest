@@ -9,8 +9,7 @@
 #include <string>
 #include <map>
 #include <list>
-
-using namespace std;
+#include <vector>
 
 class Stats {
 public:
@@ -29,7 +28,7 @@ public:
         LARGE = 2,
     };
 
-    map AbilityScores;
+    std::map<Stats::ABILITY, int> abilityScores;
 
     int hitPoints;
 
@@ -41,9 +40,11 @@ public:
 
     float height;
 
+    float weight;
+
     int speed;
 
-    list<string> languages;
+    std::vector<std::string> languages;
 };
 
 

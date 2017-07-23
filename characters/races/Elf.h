@@ -7,10 +7,15 @@
 
 
 #include "Stats.h"
+#include "FullCharacter.h"
 
-class Elf {
+class Elf : public FullCharacter {
 public:
-    int getAbility(Stats::ABILITY);
+    Elf();
+
+    Elf(std::string);
+
+    int getAbilityScore(Stats::ABILITY) override;
 
 };
 

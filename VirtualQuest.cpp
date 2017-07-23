@@ -3,6 +3,8 @@
 //
 
 #include "VirtualQuest.h"
+#include "characters/races/FullCharacter.h"
+#include "characters/races/Elf.h"
 
 void VirtualQuest::run() {
     cout << "Welcome to VirtualQuest!" << endl;
@@ -64,7 +66,14 @@ int VirtualQuest::convertInputToNum(string input, int numOfOptions) {
 }
 
 void VirtualQuest::startGame() {
-    cout << "Let's play!" << endl;
+    FullCharacter *character = new Elf();
+    character->generateStats(Stats::SIZE::MEDIUM, 50, {"Common"});
+    cout << character->getStats()->abilityScores[Stats::ABILITY::CHARISMA] << endl;
+    cout << character->getStats()->abilityScores[Stats::ABILITY::CONSTITUTION] << endl;
+    cout << character->getStats()->abilityScores[Stats::ABILITY::DEXTERITY] << endl;
+    cout << character->getStats()->abilityScores[Stats::ABILITY::INTELLIGENCE] << endl;
+    cout << character->getStats()->abilityScores[Stats::ABILITY::STRENGTH] << endl;
+    cout << character->getStats()->abilityScores[Stats::ABILITY::WISDOM] << endl;
 }
 
 void VirtualQuest::printTutorial() {
@@ -84,8 +93,6 @@ void VirtualQuest::editSettings() {
                 cout << "Normal" << endl;
                 break;
             case Settings::EASY:
-                cout << "Easy" << endl;
-                break;
             default:
                 break;
         }
@@ -100,6 +107,7 @@ void VirtualQuest::editSettings() {
                 editSettings(settings);
                 break;
             default:
+                delete settings;
                 return;
         }
     }
