@@ -15,7 +15,7 @@ public:
 
     Elf(std::string);
 
-    int getAbilityScore(Stats::ABILITY) override;
+    virtual int getAbilityScore(Stats::ABILITY) override;
 
 };
 

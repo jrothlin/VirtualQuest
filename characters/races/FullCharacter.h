@@ -37,6 +37,8 @@ protected:
 
 private:
     int best3of4d6();
+
+    int abilityScoreTotal();
 };
 
 #endif //VIRTUALQUEST_RACE_H

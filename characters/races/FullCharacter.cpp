@@ -2,6 +2,7 @@
 // Created by jwr8 on 7/22/17.
 //
 
+#include <iostream>
 #include "FullCharacter.h"
 #include "../../dice.h"
 
@@ -24,12 +25,16 @@ int FullCharacter::getAbilityScore(Stats::ABILITY ability) {
 }
 
 void FullCharacter::generateStats(Stats::SIZE size, int speed, std::vector<std::string> languages) {
-    stats_->abilityScores[Stats::ABILITY::CHARISMA] = FullCharacter::best3of4d6();
-    stats_->abilityScores[Stats::ABILITY::CONSTITUTION] = FullCharacter::best3of4d6();
-    stats_->abilityScores[Stats::ABILITY::DEXTERITY] = FullCharacter::best3of4d6();
-    stats_->abilityScores[Stats::ABILITY::INTELLIGENCE] = FullCharacter::best3of4d6();
-    stats_->abilityScores[Stats::ABILITY::STRENGTH] = FullCharacter::best3of4d6();
-    stats_->abilityScores[Stats::ABILITY::WISDOM] = FullCharacter::best3of4d6();
+    // While loop makes sure no player is way better or worse than any other
+    while (abilityScoreTotal() < 67 || abilityScoreTotal() > 77) {
+        stats_->abilityScores[Stats::ABILITY::CHARISMA] = FullCharacter::best3of4d6();
+        stats_->abilityScores[Stats::ABILITY::CONSTITUTION] = FullCharacter::best3of4d6();
+        stats_->abilityScores[Stats::ABILITY::DEXTERITY] = FullCharacter::best3of4d6();
+        stats_->abilityScores[Stats::ABILITY::INTELLIGENCE] = FullCharacter::best3of4d6();
+        stats_->abilityScores[Stats::ABILITY::STRENGTH] = FullCharacter::best3of4d6();
+        stats_->abilityScores[Stats::ABILITY::WISDOM] = FullCharacter::best3of4d6();
+    }
+    std::cout << abilityScoreTotal() << std::endl;
     stats_->hitPoints = 20;
     stats_->level = 1;
     stats_->experience = 0;
@@ -40,6 +45,17 @@ void FullCharacter::generateStats(Stats::SIZE size, int speed, std::vector<std::
     for (std::string language : languages) {
         stats_->languages.push_back(language);
     }
+}
+
+int FullCharacter::abilityScoreTotal() {
+    int total = 0;
+    total += stats_->abilityScores[Stats::ABILITY::CHARISMA];
+    total += stats_->abilityScores[Stats::ABILITY::CONSTITUTION];
+    total += stats_->abilityScores[Stats::ABILITY::DEXTERITY];
+    total += stats_->abilityScores[Stats::ABILITY::INTELLIGENCE];
+    total += stats_->abilityScores[Stats::ABILITY::STRENGTH];
+    total += stats_->abilityScores[Stats::ABILITY::WISDOM];
+    return total;
 }
 
 int FullCharacter::best3of4d6() {
