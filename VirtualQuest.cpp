@@ -3,8 +3,10 @@
 //
 
 #include "VirtualQuest.h"
-#include "characters/races/FullCharacter.h"
 #include "characters/races/Elf.h"
+#include "characters/races/DrowElf.h"
+#include "characters/races/HighElf.h"
+#include "characters/races/WoodElf.h"
 
 void VirtualQuest::run() {
     cout << "Welcome to VirtualQuest!" << endl;
@@ -66,14 +68,39 @@ int VirtualQuest::convertInputToNum(string input, int numOfOptions) {
 }
 
 void VirtualQuest::startGame() {
-    FullCharacter *character = new Elf();
-    character->generateStats(Stats::SIZE::MEDIUM, 50, {"Common"});
-    cout << character->getStats()->abilityScores[Stats::ABILITY::CHARISMA] << endl;
-    cout << character->getStats()->abilityScores[Stats::ABILITY::CONSTITUTION] << endl;
-    cout << character->getStats()->abilityScores[Stats::ABILITY::DEXTERITY] << endl;
-    cout << character->getStats()->abilityScores[Stats::ABILITY::INTELLIGENCE] << endl;
-    cout << character->getStats()->abilityScores[Stats::ABILITY::STRENGTH] << endl;
-    cout << character->getStats()->abilityScores[Stats::ABILITY::WISDOM] << endl;
+    string racePrompt = "Choose your player's race";
+    vector<string> races = {
+            "Elf",
+            "Drow Elf",
+            "High Elf",
+            "Wood Elf",
+    };
+    int raceChoice = selectOption(racePrompt, races);
+    mainPlayer = new MainPlayer();
+    switch (raceChoice) {
+        case 1 :
+            cout << "Attempting to create Elf" << endl;
+            mainPlayer->character = new Elf();
+            break;
+        case 2 :
+            mainPlayer->character = new DrowElf();
+            break;
+        case 3 :
+            mainPlayer->character = new HighElf();
+            break;
+        case 4 :
+            mainPlayer->character = new WoodElf();
+            break;
+    }
+    cout << "Created player" << endl;
+    mainPlayer->character->generateStats(Stats::SIZE::MEDIUM, 50, {"Common"});
+    cout << "Generated stats" << endl;
+    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::CHARISMA] << endl;
+    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::CONSTITUTION] << endl;
+    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::DEXTERITY] << endl;
+    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::INTELLIGENCE] << endl;
+    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::STRENGTH] << endl;
+    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::WISDOM] << endl;
 }
 
 void VirtualQuest::printTutorial() {

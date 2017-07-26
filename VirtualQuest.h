@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include "Settings.h"
+#include "characters/MainPlayer.h"
 
 using namespace std;
 
@@ -19,6 +20,8 @@ public:
 
 private:
     Settings settings;
+
+    MainPlayer *mainPlayer;
 
     void editSettings(Settings *);
 

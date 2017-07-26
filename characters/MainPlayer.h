@@ -10,7 +10,7 @@
 
 class MainPlayer {
 public:
-    FullCharacter character;
+    FullCharacter *character;
 };
 
 
