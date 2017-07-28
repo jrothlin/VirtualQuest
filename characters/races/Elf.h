@@ -13,10 +13,11 @@ class Elf : public FullCharacter {
 public:
     Elf();
 
-    Elf(std::string);
-
     virtual int getAbilityScore(Stats::ABILITY) override;
 
+    virtual int getSpeed() override;
+
+    virtual std::vector<std::string> getLanguages() override;
 };
 
 

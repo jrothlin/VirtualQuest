@@ -13,6 +13,8 @@ public:
     DrowElf();
 
     virtual int getAbilityScore(Stats::ABILITY) override;
+
+    virtual std::vector<std::string> getLanguages() override;
 };
 
 

@@ -6,10 +6,15 @@
 #include "FullCharacter.h"
 #include "../../dice.h"
 
-const std::string FullCharacter::NO_SUBCLASS = "N/A";
+const std::string FullCharacter::NO_RACE = "N/A";
 
-FullCharacter::FullCharacter(std::string raceName, std::string subRaceName) : raceName_(raceName), subRaceName_(subRaceName) {
-    abilityModifiers_ = {
+const std::string FullCharacter::NO_SUBRACE = "N/A";
+
+FullCharacter::FullCharacter() {
+    stats_ = new Stats();
+    raceName_ = NO_RACE;
+    subRaceName_ = NO_SUBRACE;
+    stats_->abilityScores = {
             {Stats::ABILITY::CHARISMA, 0},
             {Stats::ABILITY::CONSTITUTION, 0},
             {Stats::ABILITY::DEXTERITY, 0},
@@ -17,14 +22,53 @@ FullCharacter::FullCharacter(std::string raceName, std::string subRaceName) : ra
             {Stats::ABILITY::STRENGTH, 0},
             {Stats::ABILITY::WISDOM, 0},
     };
-    stats_ = new Stats();
+    stats_->hitPoints = 0;
+    stats_->level = 1;
+    stats_->experience = 0;
+    stats_->height = 0.0;
+    stats_->weight = 0.0;
+    stats_->speed = 0;
+    stats_->size = Stats::MEDIUM;
+    stats_->languages = {};
+}
+
+std::string FullCharacter::getRaceName() {
+    return raceName_;
+}
+
+std::string FullCharacter::getSubRaceName() {
+    return subRaceName_;
 }
 
 int FullCharacter::getAbilityScore(Stats::ABILITY ability) {
     return stats_->abilityScores[ability];
 }
 
-void FullCharacter::generateStats(Stats::SIZE size, int speed, std::vector<std::string> languages) {
+Stats::SIZE FullCharacter::getSize() {
+    return stats_->size;
+}
+
+double FullCharacter::getHeight() {
+    return stats_->height;
+}
+
+double FullCharacter::getWeight(){
+    return stats_->weight;
+}
+
+int FullCharacter::getSpeed() {
+    return stats_->speed;
+}
+
+std::vector<std::string> FullCharacter::getLanguages(){
+    return stats_->languages;
+}
+
+Stats *FullCharacter::getStats() {
+    return stats_;
+}
+
+void FullCharacter::generateStats() {
     // While loop makes sure no player is way better or worse than any other
     while (abilityScoreTotal() < 67 || abilityScoreTotal() > 77) {
         stats_->abilityScores[Stats::ABILITY::CHARISMA] = FullCharacter::best3of4d6();
@@ -35,16 +79,6 @@ void FullCharacter::generateStats(Stats::SIZE size, int speed, std::vector<std::
         stats_->abilityScores[Stats::ABILITY::WISDOM] = FullCharacter::best3of4d6();
     }
     std::cout << abilityScoreTotal() << std::endl;
-    stats_->hitPoints = 20;
-    stats_->level = 1;
-    stats_->experience = 0;
-    stats_->size = size;
-    stats_->height = 0.0;
-    stats_->weight = 0.0;
-    stats_->speed = speed;
-    for (std::string language : languages) {
-        stats_->languages.push_back(language);
-    }
 }
 
 int FullCharacter::abilityScoreTotal() {
@@ -71,8 +105,4 @@ int FullCharacter::best3of4d6() {
         }
     }
     return total;
-}
-
-Stats *FullCharacter::getStats() {
-    return stats_;
 }

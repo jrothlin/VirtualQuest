@@ -12,26 +12,36 @@
 
 class FullCharacter {
 public:
-    static const std::string NO_SUBCLASS;
+    static const std::string NO_RACE;
 
-    FullCharacter(std::string, std::string);
+    static const std::string NO_SUBRACE;
 
-    std::string getRaceName();
+    FullCharacter();
 
-    std::string getSubRaceName();
+    virtual std::string getRaceName();
+
+    virtual std::string getSubRaceName();
 
     virtual int getAbilityScore(Stats::ABILITY);
 
-    void generateStats(Stats::SIZE, int, std::vector<std::string>);
+    virtual Stats::SIZE getSize();
+
+    virtual double getHeight();
+
+    virtual double getWeight();
+
+    virtual int getSpeed();
+
+    virtual std::vector<std::string> getLanguages();
 
     Stats *getStats();
+
+    virtual void generateStats();
 
 protected:
     std::string raceName_;
 
     std::string subRaceName_;
-
-    std::map<Stats::ABILITY, int> abilityModifiers_;
 
     Stats *stats_;
 

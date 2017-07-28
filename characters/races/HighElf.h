@@ -13,6 +13,15 @@ public:
     HighElf();
 
     virtual int getAbilityScore(Stats::ABILITY) override;
+
+    virtual std::vector<std::string> getLanguages() override;
+
+    virtual void generateStats() override;
+
+private:
+    std::string bonusLanguage;
+
+    void setBonusLanguage();
 };
 
 

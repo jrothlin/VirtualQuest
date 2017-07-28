@@ -79,7 +79,6 @@ void VirtualQuest::startGame() {
     mainPlayer = new MainPlayer();
     switch (raceChoice) {
         case 1 :
-            cout << "Attempting to create Elf" << endl;
             mainPlayer->character = new Elf();
             break;
         case 2 :
@@ -93,7 +92,7 @@ void VirtualQuest::startGame() {
             break;
     }
     cout << "Created player" << endl;
-    mainPlayer->character->generateStats(Stats::SIZE::MEDIUM, 50, {"Common"});
+    mainPlayer->character->generateStats();
     cout << "Generated stats" << endl;
     cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::CHARISMA] << endl;
     cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::CONSTITUTION] << endl;

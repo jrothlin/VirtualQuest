@@ -18,6 +18,8 @@ class VirtualQuest {
 public:
     void run();
 
+    static int selectOption(string, vector<string>);
+
 private:
     Settings settings;
 
@@ -25,9 +27,7 @@ private:
 
     void editSettings(Settings *);
 
-    int selectOption(string, vector<string>);
-
-    int convertInputToNum(string, int);
+    static int convertInputToNum(string, int);
 
     void startGame();
 

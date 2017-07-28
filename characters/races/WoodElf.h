@@ -13,6 +13,8 @@ public:
     WoodElf();
 
     virtual int getAbilityScore(Stats::ABILITY) override;
+
+    virtual int getSpeed() override;
 };
 
 #endif //VIRTUALQUEST_WOODELF_H

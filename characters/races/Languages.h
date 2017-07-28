@@ -8,9 +8,9 @@
 #include <list>
 #include <string>
 
-std::list<std::string> languages = {
-        "Common",
-        "Elvish",
+class Languages {
+public:
+    static const std::vector<std::string> languages;
 };
 
 #endif //VIRTUALQUEST_LANGUAGES_H

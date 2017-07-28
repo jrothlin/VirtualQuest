@@ -4,11 +4,17 @@
 
 #include "WoodElf.h"
 
-WoodElf::WoodElf() : Elf("Wood Elf"){}
+WoodElf::WoodElf() : Elf() {
+    subRaceName_ = "Wood Elf";
+}
 
 int WoodElf::getAbilityScore(Stats::ABILITY ability) {
     if (ability == Stats::ABILITY::WISDOM) {
         return Elf::getAbilityScore(ability) + 1;
     }
     return Elf::getAbilityScore(ability);
+}
+
+int WoodElf::getSpeed() {
+    return Elf::getSpeed() + 5;
 }
