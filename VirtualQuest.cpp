@@ -7,6 +7,8 @@
 #include "characters/races/DrowElf.h"
 #include "characters/races/HighElf.h"
 #include "characters/races/WoodElf.h"
+#include "stringutils.h"
+#include "gameinfo.h"
 
 void VirtualQuest::run() {
     cout << "Welcome to VirtualQuest!" << endl;
@@ -18,7 +20,7 @@ void VirtualQuest::run() {
             "Exit"
     };
     while (true) {
-        int choice = selectOption(mainMenu, mainMenuOptions);
+        int choice = stringutils::selectOption(mainMenu, mainMenuOptions);
 
         switch (choice) {
             case 1:
@@ -36,46 +38,10 @@ void VirtualQuest::run() {
     }
 }
 
-int VirtualQuest::selectOption(string question, vector<string> options) {
-    cout << question << endl;
-    for (int i = 0; i < options.size(); i++) {
-        cout << (char) ('A' + i) << ") " << options[i] << endl;
-    }
-
-    string input;
-    while (true) {
-        getline(cin, input);
-        int choice = convertInputToNum(input, options.size());
-        if (choice != 0) {
-            return choice;
-        } else {
-            cout << "Invalid input, try again..." << endl;
-        }
-    }
-}
-
-int VirtualQuest::convertInputToNum(string input, int numOfOptions) {
-    if (input.length() != 1) {
-        return 0;
-    }
-    char inputChar = input[0];
-    for (int i = 0; i < numOfOptions; i++) {
-        if (inputChar == ('1' + i) || inputChar == ('A' + i) || inputChar == ('a' + i)) {
-            return i + 1;
-        }
-    }
-    return 0;
-}
 
 void VirtualQuest::startGame() {
     string racePrompt = "Choose your player's race";
-    vector<string> races = {
-            "Elf",
-            "Drow Elf",
-            "High Elf",
-            "Wood Elf",
-    };
-    int raceChoice = selectOption(racePrompt, races);
+    int raceChoice = stringutils::selectOption(racePrompt, gameinfo::races);
     mainPlayer = new MainPlayer();
     switch (raceChoice) {
         case 1 :
@@ -123,18 +89,12 @@ void VirtualQuest::editSettings() {
                 break;
         }
         string requestEditSettings = "Would you like to edit the current settings?";
-        vector<string> yesNo = {
-                "yes",
-                "no"
-        };
-        int choice = selectOption(requestEditSettings, yesNo);
-        switch (choice) {
-            case 1:
-                editSettings(settings);
-                break;
-            default:
-                delete settings;
-                return;
+        bool choice = stringutils::askYesOrNoQuestion(requestEditSettings);
+        if (choice) {
+            editSettings(settings);
+        } else {
+            delete settings;
+            return;
         }
     }
 }
@@ -146,7 +106,7 @@ void VirtualQuest::editSettings(Settings *settings) {
             "Normal",
             "Hard"
     };
-    int choice = selectOption(selectDifficulty, difficulties);
+    int choice = stringutils::selectOption(selectDifficulty, difficulties);
     switch (choice) {
         case 1:
             settings->setDifficulty(Settings::EASY);
