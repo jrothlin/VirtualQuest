@@ -30,7 +30,7 @@ public:
 
     std::map<Stats::ABILITY, int> abilityScores;
 
-    int hitPoints;
+    int maxHitPoints;
 
     int level;
 

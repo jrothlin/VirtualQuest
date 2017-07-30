@@ -34,6 +34,12 @@ public:
 
     virtual std::vector<std::string> getLanguages();
 
+    virtual int getMaxHitPoints();
+
+    virtual int getExperience();
+
+    virtual int getLevel();
+
     Stats *getStats();
 
     virtual void generateStats();

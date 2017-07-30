@@ -22,7 +22,7 @@ FullCharacter::FullCharacter() {
             {Stats::ABILITY::STRENGTH, 0},
             {Stats::ABILITY::WISDOM, 0},
     };
-    stats_->hitPoints = 0;
+    stats_->maxHitPoints = 0;
     stats_->level = 1;
     stats_->experience = 0;
     stats_->height = 0.0;
@@ -78,7 +78,6 @@ void FullCharacter::generateStats() {
         stats_->abilityScores[Stats::ABILITY::STRENGTH] = FullCharacter::best3of4d6();
         stats_->abilityScores[Stats::ABILITY::WISDOM] = FullCharacter::best3of4d6();
     }
-    std::cout << abilityScoreTotal() << std::endl;
 }
 
 int FullCharacter::abilityScoreTotal() {
@@ -105,4 +104,16 @@ int FullCharacter::best3of4d6() {
         }
     }
     return total;
+}
+
+int FullCharacter::getMaxHitPoints() {
+    return stats_->maxHitPoints;
+}
+
+int FullCharacter::getExperience() {
+    return stats_->experience;
+}
+
+int FullCharacter::getLevel() {
+    return stats_->level;
 }

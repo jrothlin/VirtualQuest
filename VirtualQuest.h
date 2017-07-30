@@ -31,6 +31,9 @@ private:
 
     void editSettings();
 
+    void printStats();
+
+    void printFormLine(int, char);
 };
 
 

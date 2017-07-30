@@ -3,3 +3,9 @@
 //
 
 #include "MainPlayer.h"
+
+MainPlayer::MainPlayer(std::string name) : name_(name) {}
+
+std::string MainPlayer::getName() {
+    return name_;
+}

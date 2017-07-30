@@ -42,7 +42,7 @@ void VirtualQuest::run() {
 void VirtualQuest::startGame() {
     string racePrompt = "Choose your player's race";
     int raceChoice = stringutils::selectOption(racePrompt, gameinfo::races);
-    mainPlayer = new MainPlayer();
+    mainPlayer = new MainPlayer("Joseph William Rothlin");
     switch (raceChoice) {
         case 1 :
             mainPlayer->character = new Elf();
@@ -57,15 +57,55 @@ void VirtualQuest::startGame() {
             mainPlayer->character = new WoodElf();
             break;
     }
-    cout << "Created player" << endl;
     mainPlayer->character->generateStats();
-    cout << "Generated stats" << endl;
-    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::CHARISMA] << endl;
-    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::CONSTITUTION] << endl;
-    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::DEXTERITY] << endl;
-    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::INTELLIGENCE] << endl;
-    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::STRENGTH] << endl;
-    cout << mainPlayer->character->getStats()->abilityScores[Stats::ABILITY::WISDOM] << endl;
+    printStats();
+}
+
+void VirtualQuest::printStats() {
+    int formWidth = 100;
+    cout << endl;
+    printFormLine(formWidth, '+');
+    cout << "| NAME: " << mainPlayer->getName();
+    cout << "  |  LEVEL: " << mainPlayer->character->getLevel();
+    cout << "  |  EXPERIENCE: " << mainPlayer->character->getExperience();
+    cout << stringutils::constructNCharacterString(' ', formWidth - 40 - mainPlayer->getName().size()) << "|" << endl;
+    printFormLine(formWidth, '|');
+    cout << "| RACE: " << mainPlayer->character->getRaceName() << "  |  ";
+    cout << "SUBRACE: " << mainPlayer->character->getSubRaceName();
+    cout << stringutils::constructNCharacterString(' ', formWidth - 23 - mainPlayer->character->getRaceName().size() - mainPlayer->character->getSubRaceName().size()) << "|" << endl;
+    printFormLine(formWidth, '|');
+    cout << "| SIZE: " << mainPlayer->character->getSize() << "  |  ";
+    cout << "HEIGHT: " << mainPlayer->character->getHeight() << "  |  ";
+    cout << "WEIGHT: " << mainPlayer->character->getWeight();
+    cout << stringutils::constructNCharacterString(' ', formWidth - 38) << "|" << endl;
+    printFormLine(formWidth, '|');
+    printFormLine(formWidth, '|');
+    cout << "| ABILITIES |" << stringutils::constructNCharacterString(' ', formWidth - 14) << "|" << endl;
+    cout << "|" << stringutils::constructNCharacterString('-', 11) << "+" << stringutils::constructNCharacterString(' ', formWidth - 14) << "|" << endl;
+    cout << "| CHARISMA: " << mainPlayer->character->getAbilityScore(Stats::ABILITY::CHARISMA);
+    cout << stringutils::constructNCharacterString(' ', formWidth - 13 - ((mainPlayer->character->getAbilityScore(Stats::ABILITY::CHARISMA) < 10) ? 1 : 2)) << "|" << endl;
+    cout << "| CONSTITUTION: " << mainPlayer->character->getAbilityScore(Stats::ABILITY::CONSTITUTION);
+    cout << stringutils::constructNCharacterString(' ', formWidth - 17 - ((mainPlayer->character->getAbilityScore(Stats::ABILITY::CONSTITUTION) < 10) ? 1 : 2)) << "|" << endl;
+    cout << "| DEXTERITY: " <<  mainPlayer->character->getAbilityScore(Stats::ABILITY::DEXTERITY);
+    cout << stringutils::constructNCharacterString(' ', formWidth - 14 - ((mainPlayer->character->getAbilityScore(Stats::ABILITY::DEXTERITY) < 10) ? 1 : 2)) << "|" << endl;
+    cout << "| INTELLIGENCE: " << mainPlayer->character->getAbilityScore(Stats::ABILITY::INTELLIGENCE);
+    cout << stringutils::constructNCharacterString(' ', formWidth - 17 - ((mainPlayer->character->getAbilityScore(Stats::ABILITY::INTELLIGENCE) < 10) ? 1 : 2)) << "|" << endl;
+    cout << "| STRENGTH: " << mainPlayer->character->getAbilityScore(Stats::ABILITY::STRENGTH);
+    cout << stringutils::constructNCharacterString(' ', formWidth - 13 - ((mainPlayer->character->getAbilityScore(Stats::ABILITY::STRENGTH) < 10) ? 1 : 2)) << "|" << endl;
+    cout << "| WISDOM: " << mainPlayer->character->getAbilityScore(Stats::ABILITY::WISDOM);
+    cout << stringutils::constructNCharacterString(' ', formWidth - 11 - ((mainPlayer->character->getAbilityScore(Stats::ABILITY::WISDOM) < 10) ? 1 : 2)) << "|" << endl;
+    printFormLine(formWidth, '|');
+    cout << "SPEED: " << mainPlayer->character->getSpeed() << endl;
+    cout << "LANGUAGES: ";
+    for (string language : mainPlayer->character->getLanguages()) {
+        cout << language << ", ";
+    }
+    cout << endl;
+    cout << "HIT POINTS: " << mainPlayer->character->getMaxHitPoints() << endl;
+}
+
+void VirtualQuest::printFormLine(int width, char end) {
+    cout << end << stringutils::constructNCharacterString('-', width - 2) << end << endl;
 }
 
 void VirtualQuest::printTutorial() {

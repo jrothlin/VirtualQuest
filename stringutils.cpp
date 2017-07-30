@@ -65,3 +65,11 @@ namespace stringutils {
         }
     }
 }
+
+std::string stringutils::constructNCharacterString(char c, int n) {
+    std::string result;
+    for (int i = 0; i < n; i++) {
+        result += c;
+    }
+    return result;
+}
