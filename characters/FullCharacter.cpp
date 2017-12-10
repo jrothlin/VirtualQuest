@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "FullCharacter.h"
-#include "../../dice.h"
+#include "../dice.h"
 
 const std::string FullCharacter::NO_RACE = "N/A";
 

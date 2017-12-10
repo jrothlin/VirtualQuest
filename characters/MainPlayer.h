@@ -5,8 +5,8 @@
 #ifndef VIRTUALQUEST_MAINPLAYER_H
 #define VIRTUALQUEST_MAINPLAYER_H
 
-#include "races/Stats.h"
-#include "races/FullCharacter.h"
+#include "Stats.h"
+#include "FullCharacter.h"
 
 class MainPlayer {
 public:

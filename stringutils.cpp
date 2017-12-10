@@ -89,5 +89,5 @@ namespace stringutils {
         char input;
         std::cin.get(input);
     }
-}
+}  // namespace stringutils
 

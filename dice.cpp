@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include "dice.h"
 
+// TODO: create dice objects which has a roll function as well as a max roll or numSides function
 namespace dice {
     int d20() {
         return rand() % 20 + 1;
@@ -29,4 +30,4 @@ namespace dice {
     int d4() {
         return rand() % 4 + 1;
     }
-}
+}  // namespace dice
