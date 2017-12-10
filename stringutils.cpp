@@ -71,12 +71,23 @@ namespace stringutils {
         getline(std::cin, input);
         return input;
     }
+
+    std::string constructNCharacterString(char c, int n) {
+        std::string result;
+        for (int i = 0; i < n; i++) {
+            result += c;
+        }
+        return result;
+    }
+
+    void clearScreen() {
+        std::cout << std::string(100, '\n');
+    }
+
+    void pressButtonToContinue() {
+        std::cout << "Press enter to continue...";
+        char input;
+        std::cin.get(input);
+    }
 }
 
-std::string stringutils::constructNCharacterString(char c, int n) {
-    std::string result;
-    for (int i = 0; i < n; i++) {
-        result += c;
-    }
-    return result;
-}

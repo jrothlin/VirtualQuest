@@ -16,6 +16,9 @@ using namespace std;
 
 class VirtualQuest {
 public:
+    /*
+     * Entry point to VirtualQuest presenting the main menu
+     */
     void run();
 
 private:
@@ -25,18 +28,28 @@ private:
 
     void editSettings(Settings *);
 
+    /*
+     * Begins the actual game play
+     */
     void startGame();
 
     void printTutorial();
 
     void editSettings();
 
+    /*
+     * Print the user's character's statistics
+     */
     void printStats();
 
-    void printFormLine(int, char);
-
+    /*
+     * Prompt the user to choose their character's name
+     */
     void chooseName();
 
+    /*
+     * Prompt the user to choose their character's race
+     */
     void chooseRace();
 };
 

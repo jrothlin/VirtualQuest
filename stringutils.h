@@ -16,6 +16,8 @@ namespace stringutils {
     int verifyYesOrNoInput(std::string);
     std::string promptForStringResponse(std::string);
     std::string constructNCharacterString(char, int);
+    void clearScreen();
+    void pressButtonToContinue();
 };
 
 

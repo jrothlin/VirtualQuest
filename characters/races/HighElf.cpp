@@ -40,5 +40,6 @@ void HighElf::setBonusLanguage() {
     std::set_symmetric_difference(allLanguages.begin(), allLanguages.end(), knownLanguages.begin(),
                                   knownLanguages.end(), std::back_inserter(unknownLanguages));
     int languageChoice = stringutils::selectOption(selectLanguageQuestion, unknownLanguages);
+    stringutils::clearScreen();
     bonusLanguage = unknownLanguages[languageChoice - 1];
 }

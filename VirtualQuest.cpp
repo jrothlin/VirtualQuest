@@ -40,13 +40,17 @@ void VirtualQuest::run() {
     }
 }
 
-
 void VirtualQuest::startGame() {
     mainPlayer = new MainPlayer();
+    stringutils::clearScreen();
     chooseName();
+    stringutils::clearScreen();
     chooseRace();
+    stringutils::clearScreen();
     mainPlayer->character->generateStats();
     printStats();
+    stringutils::pressButtonToContinue();
+    stringutils::clearScreen();
 }
 
 void VirtualQuest::chooseName() {
@@ -79,7 +83,6 @@ void VirtualQuest::chooseRace() {
     }
 }
 
-// TODO : Change this method to use CharacterSheetBuilder once its implemented
 void VirtualQuest::printStats() {
     CharacterSheetBuilder *playerStats = new CharacterSheetBuilder(100);
     playerStats->addStringField("Name", mainPlayer->getName());
@@ -122,25 +125,15 @@ void VirtualQuest::printStats() {
     cout << playerStats->build();
 }
 
-//    cout << languagesLine;
-//    cout << stringutils::constructNCharacterString(' ', formWidth - languagesLine.size() - 1) << "|" << endl;
-//    printFormLine(formWidth, '|');
-//    std::string pointsLine = "| HIT POINTS: " + mainPlayer->character->getMaxHitPoints();
-//    cout << pointsLine;
-//    cout << stringutils::constructNCharacterString(' ', formWidth - pointsLine.size() - 1) << "|" << endl;
-//    printFormLine(formWidth, '+');
-//    cout << endl;
-//}
-
-void VirtualQuest::printFormLine(int width, char end) {
-    cout << end << stringutils::constructNCharacterString('-', width - 2) << end << endl;
-}
-
 void VirtualQuest::printTutorial() {
+    stringutils::clearScreen();
     cout << "Here is a tutorial" << endl;
+    stringutils::pressButtonToContinue();
+    stringutils::clearScreen();
 }
 
 void VirtualQuest::editSettings() {
+    stringutils::clearScreen();
     Settings *settings = new Settings();
     while (true) {
         cout << "Here are the current settings:" << endl;
@@ -153,6 +146,8 @@ void VirtualQuest::editSettings() {
                 cout << "Normal" << endl;
                 break;
             case Settings::EASY:
+                cout << "Easy" << endl;
+                break;
             default:
                 break;
         }
@@ -162,6 +157,7 @@ void VirtualQuest::editSettings() {
             editSettings(settings);
         } else {
             delete settings;
+            stringutils::clearScreen();
             return;
         }
     }
