@@ -13,15 +13,17 @@ class CharacterSheetBuilder {
 public:
     CharacterSheetBuilder(int);
 
-    void addDashedLine(char);
+    void addDashedLine();
 
     void nextLine();
 
-    bool addInt(std::string, int);
+    bool addIntField(std::string, int);
 
-    bool addFloat(std::string, float);
+    bool addFloatField(std::string, float, int);
 
-    bool addString(std::string, std::string);
+    bool addString(std::string);
+
+    bool addStringField(std::string, std::string);
 
     bool addCustomLine(std::string);
 
@@ -35,6 +37,10 @@ private:
     std::stringstream currentLine_;
 
     void addNChars(int, char);
+
+    int getCharsInInt(int);
+
+    void addDashedLine(char);
 };
 
 

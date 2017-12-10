@@ -34,6 +34,10 @@ private:
     void printStats();
 
     void printFormLine(int, char);
+
+    void chooseName();
+
+    void chooseRace();
 };
 
 

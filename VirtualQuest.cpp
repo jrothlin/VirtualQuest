@@ -2,6 +2,7 @@
 // Created by jwr8 on 7/22/17.
 //
 
+#include <sstream>
 #include "VirtualQuest.h"
 #include "characters/races/Elf.h"
 #include "characters/races/DrowElf.h"
@@ -9,6 +10,7 @@
 #include "characters/races/WoodElf.h"
 #include "stringutils.h"
 #include "gameinfo.h"
+#include "CharacterSheetBuilder.h"
 
 void VirtualQuest::run() {
     cout << "Welcome to VirtualQuest!" << endl;
@@ -40,9 +42,27 @@ void VirtualQuest::run() {
 
 
 void VirtualQuest::startGame() {
+    mainPlayer = new MainPlayer();
+    chooseName();
+    chooseRace();
+    mainPlayer->character->generateStats();
+    printStats();
+}
+
+void VirtualQuest::chooseName() {
+    string name = stringutils::promptForStringResponse("Choose your player's name");
+    int maxLength = 30;
+    while (name.size() > maxLength) {
+        std::ostringstream retryPrompt;
+        retryPrompt << "Please re-enter name. Must be less than " << maxLength << " characters.";
+        name = stringutils::promptForStringResponse(retryPrompt.str());
+    }
+    mainPlayer->setName(name);
+}
+
+void VirtualQuest::chooseRace() {
     string racePrompt = "Choose your player's race";
     int raceChoice = stringutils::selectOption(racePrompt, gameinfo::races);
-    mainPlayer = new MainPlayer("Joseph William Rothlin");
     switch (raceChoice) {
         case 1 :
             mainPlayer->character = new Elf();
@@ -57,77 +77,60 @@ void VirtualQuest::startGame() {
             mainPlayer->character = new WoodElf();
             break;
     }
-    mainPlayer->character->generateStats();
-    printStats();
 }
 
 // TODO : Change this method to use CharacterSheetBuilder once its implemented
 void VirtualQuest::printStats() {
-    int formWidth = 100;
-    cout << endl;
-    printFormLine(formWidth, '+');
-    std::string nameLine = "| NAME: " + mainPlayer->getName();
-    nameLine += "  |  LEVEL: " + mainPlayer->character->getLevel();
-    nameLine += "  |  EXPERIENCE: " + mainPlayer->character->getExperience();
-    cout << nameLine << stringutils::constructNCharacterString(' ', formWidth - nameLine.size() - 1) << "|" << endl;
-    printFormLine(formWidth, '|');
-    std::string raceLine = "| RACE: " + mainPlayer->character->getRaceName() + "  |  ";
-    raceLine += "SUBRACE: " + mainPlayer->character->getSubRaceName();
-    cout << raceLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - raceLine.size() - 1) << "|" << endl;
-    printFormLine(formWidth, '|');
-    std::string sizeLine = "| SIZE: " + mainPlayer->character->getSize();
-    sizeLine += "  |  HEIGHT: ";
-//    sizeLine += mainPlayer->character->getHeight();
-    sizeLine += "  |  WEIGHT: ";
-//    sizeLine += mainPlayer->character->getWeight();
-    cout << sizeLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - sizeLine.size() - 1) << "|" << endl;
-    printFormLine(formWidth, '|');
-    printFormLine(formWidth, '|');
-    cout << "| ABILITIES |" << stringutils::constructNCharacterString(' ', formWidth - 14) << "|" << endl;
-    cout << "|" << stringutils::constructNCharacterString('-', 11) << "+" << stringutils::constructNCharacterString(' ', formWidth - 14) << "|" << endl;
-    std::string charismaLine = "| CHARISMA: " + mainPlayer->character->getAbilityScore(Stats::ABILITY::CHARISMA);
-    cout << charismaLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - charismaLine.size() - 1) << "|" << endl;
-    std::string constitutionLine = "| CONSTITUTION: " + mainPlayer->character->getAbilityScore(Stats::ABILITY::CONSTITUTION);
-    cout << constitutionLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - constitutionLine.size() - 1) << "|" << endl;
-    std::string dexterityLine = "| DEXTERITY: " +  mainPlayer->character->getAbilityScore(Stats::ABILITY::DEXTERITY);
-    cout << dexterityLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - dexterityLine.size() - 1) << "|" << endl;
-    std::string intelligenceLine = "| INTELLIGENCE: " + mainPlayer->character->getAbilityScore(Stats::ABILITY::INTELLIGENCE);
-    cout << intelligenceLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - intelligenceLine.size() - 1) << "|" << endl;
-    std::string strengthLine = "| STRENGTH: " + mainPlayer->character->getAbilityScore(Stats::ABILITY::STRENGTH);
-    cout << strengthLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - strengthLine.size() - 1) << "|" << endl;
-    std::string wisdomLine = "| WISDOM: " + mainPlayer->character->getAbilityScore(Stats::ABILITY::WISDOM);
-    cout << wisdomLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - wisdomLine.size() - 1) << "|" << endl;
-    printFormLine(formWidth, '|');
-    std::string speedLine = "| SPEED: " + mainPlayer->character->getSpeed();
-    cout << speedLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - speedLine.size() - 1) << "|" << endl;
-    printFormLine(formWidth, '|');
-    std::string languagesLine = "| LANGUAGES: ";
+    CharacterSheetBuilder *playerStats = new CharacterSheetBuilder(100);
+    playerStats->addStringField("Name", mainPlayer->getName());
+    playerStats->addIntField("LEVEL", mainPlayer->character->getLevel());
+    playerStats->addIntField("EXPERIENCE", mainPlayer->character->getExperience());
+    std::stringstream hp;
+    hp << "?" << "/" << mainPlayer->character->getMaxHitPoints();
+    playerStats->addStringField("HIT POINTS", hp.str());
+    playerStats->addDashedLine();
+    playerStats->addStringField("RACE", mainPlayer->character->getRaceName());
+    playerStats->addStringField("SUBRACE", mainPlayer->character->getSubRaceName());
+    playerStats->addDashedLine();
+    playerStats->addIntField("SIZE", mainPlayer->character->getSize());
+    playerStats->addIntField("HEIGHT", mainPlayer->character->getHeight());
+    playerStats->addIntField("WEIGHT", mainPlayer->character->getWeight());
+    playerStats->addIntField("SPEED", mainPlayer->character->getSpeed());
+    playerStats->addDashedLine();
+    playerStats->addDashedLine();
+    playerStats->addString(" ABILITIES |");
+    playerStats->nextLine();
+    playerStats->addString("-----------+");
+    playerStats->nextLine();
+    playerStats->addIntField("CHARISMA", mainPlayer->character->getAbilityScore(Stats::ABILITY::CHARISMA));
+    playerStats->addIntField("CONSTITUTION", mainPlayer->character->getAbilityScore(Stats::ABILITY::CONSTITUTION));
+    playerStats->addIntField("DEXTERITY", mainPlayer->character->getAbilityScore(Stats::ABILITY::DEXTERITY));
+    playerStats->addIntField("INTELLIGENCE", mainPlayer->character->getAbilityScore(Stats::ABILITY::INTELLIGENCE));
+    playerStats->addIntField("STRENGTH", mainPlayer->character->getAbilityScore(Stats::ABILITY::STRENGTH));
+    playerStats->addIntField("WISDOM", mainPlayer->character->getAbilityScore(Stats::ABILITY::WISDOM));
+    playerStats->addDashedLine();
+    playerStats->addString(" LANGUAGES : ");
     std::vector<std::string> languages = mainPlayer->character->getLanguages();
-    for (int i = 0; i < languages.size() - 1; i++) {
-        languagesLine += languages[i];
-        languagesLine += ", ";
+    if (languages.size() == 0) {
+        playerStats->addString("NONE");
+    } else {
+        playerStats->addString(languages[0]);
     }
-    if (languages.size() > 0) {
-        languagesLine += languages[languages.size() - 1];
+    for (int i = 1; i < languages.size(); i++) {
+        playerStats->addString(", " + languages[i]);
     }
-    cout << languagesLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - languagesLine.size() - 1) << "|" << endl;
-    printFormLine(formWidth, '|');
-    std::string pointsLine = "| HIT POINTS: " + mainPlayer->character->getMaxHitPoints();
-    cout << pointsLine;
-    cout << stringutils::constructNCharacterString(' ', formWidth - pointsLine.size() - 1) << "|" << endl;
-    printFormLine(formWidth, '+');
-    cout << endl;
+    cout << playerStats->build();
 }
+
+//    cout << languagesLine;
+//    cout << stringutils::constructNCharacterString(' ', formWidth - languagesLine.size() - 1) << "|" << endl;
+//    printFormLine(formWidth, '|');
+//    std::string pointsLine = "| HIT POINTS: " + mainPlayer->character->getMaxHitPoints();
+//    cout << pointsLine;
+//    cout << stringutils::constructNCharacterString(' ', formWidth - pointsLine.size() - 1) << "|" << endl;
+//    printFormLine(formWidth, '+');
+//    cout << endl;
+//}
 
 void VirtualQuest::printFormLine(int width, char end) {
     cout << end << stringutils::constructNCharacterString('-', width - 2) << end << endl;

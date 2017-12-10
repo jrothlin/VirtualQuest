@@ -12,9 +12,13 @@ class MainPlayer {
 public:
     FullCharacter *character;
 
+    MainPlayer();
+
     MainPlayer(std::string);
 
     std::string getName();
+
+    void setName(std::string);
 
 private:
     std::string name_;

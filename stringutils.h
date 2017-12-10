@@ -14,6 +14,7 @@ namespace stringutils {
     int convertInputToNum(std::string, int);
     bool askYesOrNoQuestion(std::string);
     int verifyYesOrNoInput(std::string);
+    std::string promptForStringResponse(std::string);
     std::string constructNCharacterString(char, int);
 };
 

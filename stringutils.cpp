@@ -64,6 +64,13 @@ namespace stringutils {
             return -1;
         }
     }
+
+    std::string promptForStringResponse(std::string prompt) {
+        std::cout << prompt << std::endl;
+        std::string input;
+        getline(std::cin, input);
+        return input;
+    }
 }
 
 std::string stringutils::constructNCharacterString(char c, int n) {
